@@ -18,7 +18,8 @@ class RootScreenState extends State<RootScreen> {
   static List<Widget> screens = <Widget>[
     ChannelScreen(),
     HomeScreen(),
-    ProfileScreen(_user, _googleSignIn),
+    //ProfileScreen(_user, _googleSignIn),
+    ProfileScreen(),
   ];
 
   int _currentIndex = 1;
