@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
-class ChannelWidget extends StatelessWidget {
+class ChannelScreen extends StatelessWidget {
+  const ChannelScreen({
+    Key key,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     double imageWidth = MediaQuery.of(context).size.width / 3;
@@ -95,16 +99,15 @@ class ChannelWidget extends StatelessWidget {
                             margin: EdgeInsets.only(left: 10),
                             child: Text(
                               "SUBSCRIBE",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.red),
+                              style: TextStyle(fontSize: 16, color: Colors.red),
                               textAlign: TextAlign.left,
                             ),
-                          ), 
+                          ),
                           IconButton(
-                              icon: Icon(Icons.check_box_outline_blank),
-                              onPressed: () {},
-                              // iconSize: 20,
-                            ),
+                            icon: Icon(Icons.check_box_outline_blank),
+                            onPressed: () {},
+                            // iconSize: 20,
+                          ),
                         ],
                       ),
                     ],
@@ -186,16 +189,15 @@ class ChannelWidget extends StatelessWidget {
                             margin: EdgeInsets.only(left: 10),
                             child: Text(
                               "SUBSCRIBE",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.red),
+                              style: TextStyle(fontSize: 16, color: Colors.red),
                               textAlign: TextAlign.left,
                             ),
-                          ), 
+                          ),
                           IconButton(
-                              icon: Icon(Icons.check_box_outline_blank),
-                              onPressed: () {},
-                              // iconSize: 20,
-                            ),
+                            icon: Icon(Icons.check_box_outline_blank),
+                            onPressed: () {},
+                            // iconSize: 20,
+                          ),
                         ],
                       ),
                     ],
@@ -277,16 +279,15 @@ class ChannelWidget extends StatelessWidget {
                             margin: EdgeInsets.only(left: 10),
                             child: Text(
                               "SUBSCRIBE",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.red),
+                              style: TextStyle(fontSize: 16, color: Colors.red),
                               textAlign: TextAlign.left,
                             ),
-                          ), 
+                          ),
                           IconButton(
-                              icon: Icon(Icons.check_box_outline_blank),
-                              onPressed: () {},
-                              // iconSize: 20,
-                            ),
+                            icon: Icon(Icons.check_box_outline_blank),
+                            onPressed: () {},
+                            // iconSize: 20,
+                          ),
                         ],
                       ),
                     ],
@@ -368,16 +369,15 @@ class ChannelWidget extends StatelessWidget {
                             margin: EdgeInsets.only(left: 10),
                             child: Text(
                               "SUBSCRIBE",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.red),
+                              style: TextStyle(fontSize: 16, color: Colors.red),
                               textAlign: TextAlign.left,
                             ),
-                          ), 
+                          ),
                           IconButton(
-                              icon: Icon(Icons.check_box_outline_blank),
-                              onPressed: () {},
-                              // iconSize: 20,
-                            ),
+                            icon: Icon(Icons.check_box_outline_blank),
+                            onPressed: () {},
+                            // iconSize: 20,
+                          ),
                         ],
                       ),
                     ],
@@ -459,16 +459,15 @@ class ChannelWidget extends StatelessWidget {
                             margin: EdgeInsets.only(left: 10),
                             child: Text(
                               "SUBSCRIBE",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.red),
+                              style: TextStyle(fontSize: 16, color: Colors.red),
                               textAlign: TextAlign.left,
                             ),
-                          ), 
+                          ),
                           IconButton(
-                              icon: Icon(Icons.check_box_outline_blank),
-                              onPressed: () {},
-                              // iconSize: 20,
-                            ),
+                            icon: Icon(Icons.check_box_outline_blank),
+                            onPressed: () {},
+                            // iconSize: 20,
+                          ),
                         ],
                       ),
                     ],
@@ -550,16 +549,15 @@ class ChannelWidget extends StatelessWidget {
                             margin: EdgeInsets.only(left: 10),
                             child: Text(
                               "SUBSCRIBE",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.red),
+                              style: TextStyle(fontSize: 16, color: Colors.red),
                               textAlign: TextAlign.left,
                             ),
-                          ), 
+                          ),
                           IconButton(
-                              icon: Icon(Icons.check_box_outline_blank),
-                              onPressed: () {},
-                              // iconSize: 20,
-                            ),
+                            icon: Icon(Icons.check_box_outline_blank),
+                            onPressed: () {},
+                            // iconSize: 20,
+                          ),
                         ],
                       ),
                     ],
@@ -570,15 +568,6 @@ class ChannelWidget extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar:
-          BottomNavigationBar(selectedItemColor: Colors.orange, items: [
-        new BottomNavigationBarItem(
-            icon: Icon(Icons.home), title: Text("Home")),
-        new BottomNavigationBarItem(
-            icon: Icon(Icons.desktop_windows), title: Text("Channel")),
-        new BottomNavigationBarItem(
-            icon: Icon(Icons.person), title: Text("Profile"))
-      ]),
     );
   }
 }

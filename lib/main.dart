@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:swdmobileapp/screens/login.dart';
 
-import 'screens/channel.dart';
-
 void main() => runApp(
   MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: ChannelWidget()
+    home: LoginPageWidget()
   ));

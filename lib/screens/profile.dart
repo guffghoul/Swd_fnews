@@ -2,11 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class ProfileWidget extends StatelessWidget {
+class ProfileScreen extends StatelessWidget {
   GoogleSignIn _googleSignIn;
   FirebaseUser _user;
 
-  ProfileWidget(FirebaseUser user, GoogleSignIn signIn) {
+   ProfileScreen(FirebaseUser user, GoogleSignIn signIn) {
     _user = user;
     _googleSignIn = signIn;
   }
