@@ -127,7 +127,8 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      WelcomeUserWidget(user, _googleSignIn)),
+                      //RootScreen(user, _googleSignIn)),
+                      RootScreen(user)),
             );
 
     setState(() {

@@ -3,15 +3,57 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:swdmobileapp/screens/channel.dart';
 import 'package:swdmobileapp/screens/profile.dart';
+import 'package:swdmobileapp/widgets/bottomBar.dart';
 
-class WelcomeUserWidget extends StatelessWidget {
-  GoogleSignIn _googleSignIn;
-  FirebaseUser _user;
+class RootScreen extends StatefulWidget {
+  const RootScreen(FirebaseUser user, {Key key}) : super(key: key);
 
-  WelcomeUserWidget(FirebaseUser user, GoogleSignIn signIn) {
-    _user = user;
-    _googleSignIn = signIn;
+  @override
+  RootScreenState createState() => RootScreenState();
+}
+
+class RootScreenState extends State<RootScreen> {
+  static GoogleSignIn _googleSignIn;
+  static FirebaseUser _user;
+  static List<Widget> screens = <Widget>[
+    ChannelScreen(),
+    HomeScreen(),
+    //ProfileScreen(_user, _googleSignIn),
+    ProfileScreen(),
+  ];
+
+  int _currentIndex = 1;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: screens.elementAt(_currentIndex),
+      bottomNavigationBar:
+          BottomBar(
+            currentIndex: _currentIndex,
+            onTap: _onItemTapped),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({
+    Key key,
+  }) : super(key: key);
+
+  // GoogleSignIn _googleSignIn;
+  // FirebaseUser _user;
+
+  // HomeScreen(FirebaseUser user, GoogleSignIn signIn) {
+  //   _user = user;
+  //   _googleSignIn = signIn;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +138,7 @@ class WelcomeUserWidget extends StatelessWidget {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: Colors.blueGrey[100], width: 0.5),
+              border: Border.all(color: Colors.blueGrey[100], width: 0.2),
               // boxShadow: [
               //   BoxShadow(
               //     color: Colors.grey.withOpacity(0.5),
@@ -227,7 +269,6 @@ class WelcomeUserWidget extends StatelessWidget {
                       )
                     ],
                   ),
-
                   Row(
                     children: <Widget>[
                       Stack(children: <Widget>[
@@ -343,7 +384,6 @@ class WelcomeUserWidget extends StatelessWidget {
                       )
                     ],
                   ),
-
                   Row(
                     children: <Widget>[
                       Stack(children: <Widget>[
@@ -459,7 +499,6 @@ class WelcomeUserWidget extends StatelessWidget {
                       )
                     ],
                   ),
-
                   Row(
                     children: <Widget>[
                       Stack(children: <Widget>[
@@ -574,16 +613,16 @@ class WelcomeUserWidget extends StatelessWidget {
                         ),
                       )
                     ],
-                  ),  
+                  ),
                 ],
               ),
             ),
           ),
           Container(
             decoration: BoxDecoration(
-                    color: Colors.yellow[100].withOpacity(0.5),
-                  ),
-            height: 35,
+              color: Colors.yellow[100].withOpacity(0.5),
+            ),
+            height: 34,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -592,7 +631,6 @@ class WelcomeUserWidget extends StatelessWidget {
                     left: 20,
                     right: 20,
                   ),
-                  
                   child: Text(
                     "First    1     2     3     4     5    Last",
                     style: TextStyle(
@@ -606,16 +644,6 @@ class WelcomeUserWidget extends StatelessWidget {
           )
         ],
       ),
-
-      bottomNavigationBar:
-          BottomNavigationBar(selectedItemColor: Colors.orange, items: [
-        new BottomNavigationBarItem(
-            icon: Icon(Icons.home), title: Text("Home")),
-        new BottomNavigationBarItem(
-            icon: Icon(Icons.desktop_windows), title: Text("Channel")),
-        new BottomNavigationBarItem(
-            icon: Icon(Icons.person), title: Text("Profile"))
-      ]),
     );
   }
 }

@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:swdmobileapp/screens/login.dart';
 import 'dart:async';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
-import 'screens/channel.dart';
-import 'screens/login.dart';
 
 void main() => runApp(
   MaterialApp(
