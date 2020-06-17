@@ -21,4 +21,5 @@ class Channel {
     data['isActive'] = this.isActive;
     return data;
   }
+
 }

@@ -33,4 +33,5 @@ class News {
     data['isActive'] = this.isActive;
     return data;
   }
+
 }
