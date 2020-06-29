@@ -2,19 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:swdmobileapp/screens/home.dart';
+import 'package:swdmobileapp/services/project_api.dart';
+import 'package:swdmobileapp/viewmodels/home_viewmodel.dart';
+
+//final HomePageViewModel homePageViewModel = HomePageViewModel(api: ProjectApi());
 
 class LoginPageWidget extends StatefulWidget {
+  
+  //final HomePageViewModel homePageViewModel;
 
+  //const LoginPageWidget({Key key,@required this.homePageViewModel}) : super(key: key);
+  
    @override
    LoginPageWidgetState createState() => LoginPageWidgetState();
 }
 
 class LoginPageWidgetState extends State<LoginPageWidget> {
-  
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool isUserSignedIn = false;
   //bool isSchoolMail = false;
+
+  //LoginPageWidgetState({@required this.homePageViewModel});  
 
   @override
   void initState() {
@@ -108,7 +117,7 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
       );
 
       user = (await _auth.signInWithCredential(credential)).user;
-      // if (user.email != '^[a-z][a-z0-9_\.]{5,32}@fpt.edu.vn'){
+       // if (user.email != '^[a-z][a-z0-9_\.]{5,32}@fpt.edu.vn'){
         
       // }
 
@@ -128,7 +137,7 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
               MaterialPageRoute(
                   builder: (context) =>
                       //RootScreen(user, _googleSignIn)),
-                      RootScreen(user)),
+                      RootScreen()),
             );
 
     setState(() {
