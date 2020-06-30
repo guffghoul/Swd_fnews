@@ -1,40 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:scoped_model/scoped_model.dart';
 import 'package:swdmobileapp/models/news.dart';
+import 'package:swdmobileapp/presenters/home_presenter.dart';
 import 'package:swdmobileapp/screens/channel.dart';
 import 'package:swdmobileapp/screens/profile.dart';
 import 'package:swdmobileapp/services/project_api.dart';
-import 'package:swdmobileapp/viewmodels/home_viewmodel.dart';
+import 'package:swdmobileapp/views/home_view.dart';
 import 'package:swdmobileapp/widgets/bottom_bar.dart';
 import 'package:swdmobileapp/widgets/newslist.dart';
 import 'package:swdmobileapp/widgets/no_internet.dart';
 
-final HomePageViewModel homePageViewModel = HomePageViewModel(api: ProjectApi());
 
 class RootScreen extends StatefulWidget {
   //const RootScreen(FirebaseUser user, {Key key}) : super(key: key);
-  final HomePageViewModel viewModel;
 
-  RootScreen({Key key,@required this.viewModel}) : super(key: key);
+  RootScreen({Key key}) : super(key: key);
 
   @override
-  RootScreenState createState() => RootScreenState(viewModel);
+  RootScreenState createState() => RootScreenState();
 }
 
 class RootScreenState extends State<RootScreen>{
   static GoogleSignIn _googleSignIn;
   static FirebaseUser _user;
-  static HomePageViewModel _homePageViewModel;
-
-  RootScreenState(HomePageViewModel viewModel){
-    _homePageViewModel = viewModel;
-  }
 
   static List<Widget> screens = <Widget>[
     ChannelScreen(),
-    HomeScreen(viewModel: _homePageViewModel,),
+    HomeScreen(),
     //ProfileScreen(_user, _googleSignIn),
     ProfileScreen(),
   ];
@@ -60,24 +53,24 @@ class RootScreenState extends State<RootScreen>{
 }
 
 class HomeScreen extends StatefulWidget {
-  final HomePageViewModel viewModel;
+  //final HomePageViewModel viewModel;
 
-  HomeScreen({Key key, @required this.viewModel}) : super(key: key);
+  HomeScreen({Key key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
-
-  Future loadData() async {
-    await widget.viewModel.setNews();
-  }
+class _HomeScreenState extends State<HomeScreen> implements HomeView {
+  List<News> _news = <News>[];
+  HomePresenter _presenter;
 
   @override
   void initState(){
     super.initState();
-    loadData();
+    _presenter = new HomePresenter(api: ProjectApi());
+    _presenter.attachView(this);
+    _presenter.getNews();
   }
 
   @override
@@ -93,8 +86,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         iconTheme: IconThemeData(color: Colors.white),
         elevation: 0,
       ),
-      body: ScopedModel<HomePageViewModel>(
-        model: widget.viewModel,
+      body: Material(
         child: Column(
           children: <Widget>[
             Container(
@@ -134,11 +126,9 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 bottom: 7,
               ),
               child: SingleChildScrollView(
-                child: ScopedModelDescendant<HomePageViewModel>(
-                  builder: (context, child, model) {
-                    return FutureBuilder<List<News>>(
-                      future: model.news,
-                      builder: (_, AsyncSnapshot<List<News>> snapshot) {
+                child: FutureBuilder<List<News>>(
+                      future: onLoadNews(_news),
+                      builder: (context, AsyncSnapshot<List<News>> snapshot) {
                         switch (snapshot.connectionState) {
                           case ConnectionState.none:
                           case ConnectionState.active:
@@ -157,15 +147,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                           } else if (snapshot.hasError) {
                             return NoInternetConnection(
                               action: () async {
-                                await model.setNews();
+                                await onLoadNews(_news);
                               },
                             );
                           }
                         }
                       },
-                    );
-                  }
-                )
+                    )
+                 
               ),
             ),
             Container(
@@ -196,6 +185,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         ),
       ),
     );
+  }
+
+  @override
+  onLoadNews(List<News> news) {
+    setState(() {
+      _news = news;
+    });
   }
 }
 

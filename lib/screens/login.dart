@@ -2,19 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:swdmobileapp/screens/home.dart';
-import 'package:swdmobileapp/services/project_api.dart';
-import 'package:swdmobileapp/viewmodels/home_viewmodel.dart';
-
-//final HomePageViewModel homePageViewModel = HomePageViewModel(api: ProjectApi());
 
 class LoginPageWidget extends StatefulWidget {
-  
-  //final HomePageViewModel homePageViewModel;
-
-  //const LoginPageWidget({Key key,@required this.homePageViewModel}) : super(key: key);
-  
-   @override
-   LoginPageWidgetState createState() => LoginPageWidgetState();
+  @override
+  LoginPageWidgetState createState() => LoginPageWidgetState();
 }
 
 class LoginPageWidgetState extends State<LoginPageWidget> {
@@ -22,8 +13,6 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   bool isUserSignedIn = false;
   //bool isSchoolMail = false;
-
-  //LoginPageWidgetState({@required this.homePageViewModel});  
 
   @override
   void initState() {
@@ -35,7 +24,6 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
   // void errorMsg(bool flag) {
   //   if (flag == false){
 
-      
   //   }
   //   setState(() {
   //       isUserSignedIn = flag;
@@ -52,64 +40,58 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.orange,
-        title: Text("F-News",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold
-            ),
+        appBar: AppBar(
+          backgroundColor: Colors.orange,
+          title: Text(
+            "F-News",
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: Container(
-        padding: EdgeInsets.all(50),
-        child: Align(
-          alignment: Alignment.center,
-          child: FlatButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            onPressed: () {
-              onGoogleSignIn(context);
-            },
-            color: isUserSignedIn ? Colors.green : Colors.blueAccent,
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Icon(Icons.account_circle, color: Colors.white),
-                  SizedBox(width: 10),
-                  Text(
-                    isUserSignedIn ? 'You\'re logged in with Google' : 'Login with Google', 
-                    style: TextStyle(color: Colors.white))
-                ],
-              )
-            )
-          )
-        )
-      )
-      );
+        body: Container(
+            padding: EdgeInsets.all(50),
+            child: Align(
+                alignment: Alignment.center,
+                child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    onPressed: () {
+                      onGoogleSignIn(context);
+                    },
+                    color: isUserSignedIn ? Colors.green : Colors.blueAccent,
+                    child: Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(Icons.account_circle, color: Colors.white),
+                            SizedBox(width: 10),
+                            Text(
+                                isUserSignedIn
+                                    ? 'You\'re logged in with Google'
+                                    : 'Login with Google',
+                                style: TextStyle(color: Colors.white))
+                          ],
+                        ))))));
   }
 
   Future<FirebaseUser> _handleSignIn() async {
     FirebaseUser user;
-    bool userSignedIn = await _googleSignIn.isSignedIn();  
-    
+    bool userSignedIn = await _googleSignIn.isSignedIn();
+
     setState(() {
       isUserSignedIn = userSignedIn;
     });
 
     if (isUserSignedIn) {
       user = await _auth.currentUser();
-    }
-    else {
+    } else {
       final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
 
       final AuthCredential credential = GoogleAuthProvider.getCredential(
         accessToken: googleAuth.accessToken,
@@ -117,8 +99,8 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
       );
 
       user = (await _auth.signInWithCredential(credential)).user;
-       // if (user.email != '^[a-z][a-z0-9_\.]{5,32}@fpt.edu.vn'){
-        
+      // if (user.email != '^[a-z][a-z0-9_\.]{5,32}@fpt.edu.vn'){
+
       // }
 
       userSignedIn = await _googleSignIn.isSignedIn();
@@ -133,12 +115,12 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
   void onGoogleSignIn(BuildContext context) async {
     FirebaseUser user = await _handleSignIn();
     var userSignedIn = await Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      //RootScreen(user, _googleSignIn)),
-                      RootScreen()),
-            );
+      context,
+      MaterialPageRoute(
+          builder: (context) =>
+              //RootScreen(user, _googleSignIn)),
+              RootScreen()),
+    );
 
     setState(() {
       isUserSignedIn = userSignedIn == null ? true : false;
