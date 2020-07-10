@@ -8,9 +8,8 @@ import 'package:swdmobileapp/screens/profile.dart';
 import 'package:swdmobileapp/services/project_api.dart';
 import 'package:swdmobileapp/views/home_view.dart';
 import 'package:swdmobileapp/widgets/bottom_bar.dart';
-import 'package:swdmobileapp/widgets/newslist.dart';
+import 'package:swdmobileapp/widgets/news_list.dart';
 import 'package:swdmobileapp/widgets/no_internet.dart';
-
 
 class RootScreen extends StatefulWidget {
   //const RootScreen(FirebaseUser user, {Key key}) : super(key: key);
@@ -21,11 +20,11 @@ class RootScreen extends StatefulWidget {
   RootScreenState createState() => RootScreenState();
 }
 
-class RootScreenState extends State<RootScreen>{
+class RootScreenState extends State<RootScreen> {
   static GoogleSignIn _googleSignIn;
   static FirebaseUser _user;
 
-  static List<Widget> screens = <Widget>[
+  List<Widget> screens = <Widget>[
     ChannelScreen(),
     HomeScreen(),
     //ProfileScreen(_user, _googleSignIn),
@@ -45,16 +44,12 @@ class RootScreenState extends State<RootScreen>{
     return Scaffold(
       body: screens.elementAt(_currentIndex),
       bottomNavigationBar:
-          BottomBar(
-            currentIndex: _currentIndex,
-            onTap: _onItemTapped),
+          BottomBar(currentIndex: _currentIndex, onTap: _onItemTapped),
     );
   }
 }
 
 class HomeScreen extends StatefulWidget {
-  //final HomePageViewModel viewModel;
-
   HomeScreen({Key key}) : super(key: key);
 
   @override
@@ -62,13 +57,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> implements HomeView {
-  List<News> _news = <News>[];
+  Future<List<News>> _news;
   HomePresenter _presenter;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
-    _presenter = new HomePresenter(api: ProjectApi());
+    _presenter = new HomePresenter();
     _presenter.attachView(this);
     _presenter.getNews();
   }
@@ -109,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> implements HomeView {
               height: 515,
               //for emulator debug
               // height: 600,
-              alignment: Alignment.center,
+              //alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: Colors.blueGrey[100], width: 0.2),
@@ -125,36 +120,54 @@ class _HomeScreenState extends State<HomeScreen> implements HomeView {
               margin: EdgeInsets.only(
                 bottom: 7,
               ),
-              child: SingleChildScrollView(
-                child: FutureBuilder<List<News>>(
-                      future: onLoadNews(_news),
-                      builder: (context, AsyncSnapshot<List<News>> snapshot) {
-                        switch (snapshot.connectionState) {
-                          case ConnectionState.none:
-                          case ConnectionState.active:
-                          case ConnectionState.waiting:
-                            return Center(child: const CircularProgressIndicator());
-                          case ConnectionState.done:
-                          if (snapshot.hasData) {
-                            var newsdata = snapshot.data;
-                            return ListView.builder(
-                              itemCount: newsdata == null ? 0 : newsdata.length,
-                              itemBuilder: (_, int index) {
-                                var news = newsdata[index];
-                                return NewsListItem(news: news);
-                              },
-                            );
-                          } else if (snapshot.hasError) {
-                            return NoInternetConnection(
-                              action: () async {
-                                await onLoadNews(_news);
-                              },
-                            );
-                          }
-                        }
-                      },
-                    )
-                 
+              child: FutureBuilder<List<News>>(
+                future: _news,
+                builder:
+                    (BuildContext context, AsyncSnapshot<List<News>> snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                    case ConnectionState.active:
+                    case ConnectionState.waiting:
+                      return Center(child: const CircularProgressIndicator());
+                    case ConnectionState.done:
+                      if (snapshot.hasError)
+                        return Text("There was an error: ${snapshot.error}");
+                      if (snapshot.hasData) {
+                        var newsdata = snapshot.data;
+                        return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: newsdata == null ? 0 : newsdata.length,
+                          itemBuilder: (_, int index) {
+                            var news = newsdata[index];
+                            return NewsListItem(news: news);
+                          },
+                        );
+                      } else if (snapshot.hasError) {
+                        return NoInternetConnection(
+                          action: () async {
+                            await onLoadNews(_news);
+                          },
+                        );
+                      }
+                  }
+                  // if (snapshot.hasData) {
+                  //   List<News> news = snapshot.data;
+
+                  //   return Flexible(
+                  //     child: ListView(
+                  //         scrollDirection: Axis.vertical,
+                  //         shrinkWrap: true,
+                  //         children: news
+                  //             .map(
+                  //               (News newsItem) => ListTile(
+                  //                 title: Text(newsItem.newsTitle),
+                  //               ),
+                  //             )
+                  //             .toList()),
+                  //   );
+                  // }
+                },
               ),
             ),
             Container(
@@ -188,13 +201,17 @@ class _HomeScreenState extends State<HomeScreen> implements HomeView {
   }
 
   @override
-  onLoadNews(List<News> news) {
+  onLoadNews(Future<List<News>> news) {
     setState(() {
       _news = news;
     });
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (_presenter != null) {
+      _presenter.detachView();
+    }
+  }
 }
-
-
-
-

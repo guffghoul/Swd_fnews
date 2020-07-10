@@ -1,13 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:swdmobileapp/models/channel.dart';
+import 'package:swdmobileapp/presenters/channel_presenter.dart';
+import 'package:swdmobileapp/views/channel_view.dart';
+import 'package:swdmobileapp/widgets/channel_list.dart';
 
-class ChannelScreen extends StatelessWidget {
+class ChannelScreen extends StatefulWidget {
   const ChannelScreen({
     Key key,
   }) : super(key: key);
 
   @override
+  State<StatefulWidget> createState() => _ChannelScreenState();
+}
+
+class _ChannelScreenState extends State<ChannelScreen> implements ChannelView {
+  Future<List<Channel>> _channels;
+  ChannelPresenter _presenter;
+
+  @override
+  void initState() {
+    super.initState();
+    _presenter = new ChannelPresenter();
+    _presenter.attachView(this);
+    _presenter.getChannels();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    double imageWidth = MediaQuery.of(context).size.width / 3;
+    //double imageWidth = MediaQuery.of(context).size.width / 3;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -22,552 +42,44 @@ class ChannelScreen extends StatelessWidget {
         leading: BackButton(),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(5),
-                  child: Container(
-                    height: imageWidth,
-                    width: imageWidth,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: AssetImage('assets/vovinam.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                      shape: BoxShape.rectangle,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "CLB Vovinam",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Total subscribers: 700",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Last Post: 13/06/2020",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Total Post: 45",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: Text(
-                              "SUBSCRIBE",
-                              style: TextStyle(fontSize: 16, color: Colors.red),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.check_box_outline_blank),
-                            onPressed: () {},
-                            // iconSize: 20,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(5),
-                  child: Container(
-                    height: imageWidth,
-                    width: imageWidth,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: AssetImage('assets/library.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                      shape: BoxShape.rectangle,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Phòng Thư Viện",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Total subscribers: 700",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Last Post: 13/06/2020",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Total Post: 45",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: Text(
-                              "SUBSCRIBE",
-                              style: TextStyle(fontSize: 16, color: Colors.red),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.check_box_outline_blank),
-                            onPressed: () {},
-                            // iconSize: 20,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(5),
-                  child: Container(
-                    height: imageWidth,
-                    width: imageWidth,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: AssetImage('assets/fpt.png'),
-                        fit: BoxFit.cover,
-                      ),
-                      shape: BoxShape.rectangle,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "FPT news",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Total subscribers: 700",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Last Post: 13/06/2020",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Total Post: 45",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: Text(
-                              "SUBSCRIBE",
-                              style: TextStyle(fontSize: 16, color: Colors.red),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.check_box_outline_blank),
-                            onPressed: () {},
-                            // iconSize: 20,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(5),
-                  child: Container(
-                    height: imageWidth,
-                    width: imageWidth,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: AssetImage('assets/ctsv.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                      shape: BoxShape.rectangle,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Phòng CTSV",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Total subscribers: 700",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Last Post: 13/06/2020",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Total Post: 45",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: Text(
-                              "SUBSCRIBE",
-                              style: TextStyle(fontSize: 16, color: Colors.red),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.check_box_outline_blank),
-                            onPressed: () {},
-                            // iconSize: 20,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(5),
-                  child: Container(
-                    height: imageWidth,
-                    width: imageWidth,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: AssetImage('assets/ctsv.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                      shape: BoxShape.rectangle,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Phòng CTSV",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Total subscribers: 700",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Last Post: 13/06/2020",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Total Post: 45",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: Text(
-                              "SUBSCRIBE",
-                              style: TextStyle(fontSize: 16, color: Colors.red),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.check_box_outline_blank),
-                            onPressed: () {},
-                            // iconSize: 20,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(5),
-                  child: Container(
-                    height: imageWidth,
-                    width: imageWidth,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: AssetImage('assets/ctsv.jpg'),
-                        fit: BoxFit.cover,
-                      ),
-                      shape: BoxShape.rectangle,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Phòng CTSV",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Total subscribers: 700",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Last Post: 13/06/2020",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Text(
-                              "Total Post: 45",
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black87),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(left: 10),
-                            child: Text(
-                              "SUBSCRIBE",
-                              style: TextStyle(fontSize: 16, color: Colors.red),
-                              textAlign: TextAlign.left,
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.check_box_outline_blank),
-                            onPressed: () {},
-                            // iconSize: 20,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+      body: FutureBuilder<List<Channel>>(
+          future: _channels,
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Channel>> snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+              case ConnectionState.active:
+              case ConnectionState.waiting:
+                return Center(child: const CircularProgressIndicator());
+              case ConnectionState.done:
+                if (snapshot.hasError)
+                  return Text("There was an error: ${snapshot.error}");
+                if (snapshot.hasData) {
+                  var channeldata = snapshot.data;
+                  return ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: channeldata == null ? 0 : channeldata.length,
+                      itemBuilder: (_, int index) {
+                        var channels = channeldata[index];
+                        return ChannelListItem(channel: channels);
+                      });
+                }
+            }
+          }),
     );
+  }
+
+  @override
+  onLoadChannels(Future<List<Channel>> channels) {
+    _channels = channels;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    if (_presenter != null) {
+      _presenter.detachView();
+    }
   }
 }
