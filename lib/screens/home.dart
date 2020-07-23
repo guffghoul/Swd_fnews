@@ -170,30 +170,30 @@ class _HomeScreenState extends State<HomeScreen> implements HomeView {
                 },
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.yellow[100].withOpacity(0.5),
-              ),
-              height: 34,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: 20,
-                      right: 20,
-                    ),
-                    child: Text(
-                      "First    1     2     3     4     5    Last",
-                      style: TextStyle(
-                          color: Colors.orange[300],
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
-              ),
-            )
+            // Container(
+            //   decoration: BoxDecoration(
+            //     color: Colors.yellow[100].withOpacity(0.5),
+            //   ),
+            //   height: 34,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: <Widget>[
+            //       Container(
+            //         margin: EdgeInsets.only(
+            //           left: 20,
+            //           right: 20,
+            //         ),
+            //         child: Text(
+            //           "First    1     2     3     4     5    Last",
+            //           style: TextStyle(
+            //               color: Colors.orange[300],
+            //               fontSize: 17,
+            //               fontWeight: FontWeight.bold),
+            //         ),
+            //       )
+            //     ],
+            //   ),
+            // )
           ],
         ),
       ),

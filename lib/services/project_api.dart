@@ -6,9 +6,7 @@ import 'package:swdmobileapp/models/channel.dart';
 import 'package:swdmobileapp/models/news.dart';
 
 class ProjectApi implements INewsAPI {
-  final _baseUrl = 'https://fnewsdemo.azurewebsites.net/api';
-  // var _session = TimeOfDay.now();
-  
+  final _baseUrl = 'https://fnewsdemo.azurewebsites.net/api'; 
 
   // http.Client _client = http.Client();
 
@@ -22,14 +20,6 @@ class ProjectApi implements INewsAPI {
 
   @override
   Future<List<News>> getHomeNews() async {
-    // var _sessionTimeout = TimeOfDay.now();
-    // double test = 15.9;
-    // double session = _session.hour.toDouble() + (_session.minute.toDouble() / 60);
-    // double sessionTimeout = _sessionTimeout.hour.toDouble() + (_sessionTimeout.minute.toDouble() / 60); 
-    // double tmp = (sessionTimeout - test);
-    // double timediff = ((sessionTimeout - test) - (sessionTimeout - test).truncate()) * 60;
-    // print('$tmp , $timediff');
-
     var response = await http.get('$_baseUrl/News');
 
     if (response.statusCode == 200) {
