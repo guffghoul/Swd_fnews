@@ -82,119 +82,97 @@ class _HomeScreenState extends State<HomeScreen> implements HomeView {
         elevation: 0,
       ),
       body: Material(
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 40,
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(bottom: 1),
-              decoration: BoxDecoration(
-                color: Colors.red[50].withOpacity(0.5),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Container(
+                height: MediaQuery.of(context).size.height / 19.5,
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(bottom: 1),
+                decoration: BoxDecoration(
+                  color: Colors.red[50].withOpacity(0.5),
+                ),
+                child: Text(
+                  "TIN MỚI NHẤT",
+                  style: TextStyle(
+                      color: Colors.deepOrange[400],
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
-              child: Text(
-                "TIN MỚI NHẤT",
-                style: TextStyle(
-                    color: Colors.deepOrange[400],
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-            Container(
-              //for mobile debug
-              height: 515,
-              //for emulator debug
-              // height: 600,
-              //alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: Colors.blueGrey[100], width: 0.2),
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.grey.withOpacity(0.5),
-                //     spreadRadius: 5,
-                //     blurRadius: 7,
-                //     offset: Offset(0, 3),
-                //   )
-                // ]
-              ),
-              margin: EdgeInsets.only(
-                bottom: 7,
-              ),
-              child: FutureBuilder<List<News>>(
-                future: _news,
-                builder:
-                    (BuildContext context, AsyncSnapshot<List<News>> snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.none:
-                    case ConnectionState.active:
-                    case ConnectionState.waiting:
-                      return Center(child: const CircularProgressIndicator());
-                    case ConnectionState.done:
-                      if (snapshot.hasError)
-                        return Text("There was an error: ${snapshot.error}");
-                      if (snapshot.hasData) {
-                        var newsdata = snapshot.data;
-                        return ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: newsdata == null ? 0 : newsdata.length,
-                          itemBuilder: (_, int index) {
-                            var news = newsdata[index];
-                            return NewsListItem(news: news);
-                          },
-                        );
-                      } else if (snapshot.hasError) {
-                        return NoInternetConnection(
-                          action: () async {
-                            await onLoadNews(_news);
-                          },
-                        );
-                      }
-                  }
-                  // if (snapshot.hasData) {
-                  //   List<News> news = snapshot.data;
+              Container(
+                //for mobile debug
+                height: MediaQuery.of(context).size.height / 1.3,
+                //for emulator debug
+                // height: 600,
+                //alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: Colors.blueGrey[100], width: 0.2),
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: Colors.grey.withOpacity(0.5),
+                  //     spreadRadius: 5,
+                  //     blurRadius: 7,
+                  //     offset: Offset(0, 3),
+                  //   )
+                  // ]
+                ),
+                margin: EdgeInsets.only(
+                  bottom: 7,
+                ),
+                child: FutureBuilder<List<News>>(
+                  future: _news,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<News>> snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.active:
+                      case ConnectionState.waiting:
+                        return Center(child: const CircularProgressIndicator());
+                      case ConnectionState.done:
+                        if (snapshot.hasError)
+                          return Text("There was an error: ${snapshot.error}");
+                        if (snapshot.hasData) {
+                          var newsdata = snapshot.data;
+                          return ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: newsdata == null ? 0 : newsdata.length,
+                            itemBuilder: (_, int index) {
+                              var news = newsdata[index];
+                              return NewsListItem(news: news);
+                            },
+                          );
+                        } else if (snapshot.hasError) {
+                          return NoInternetConnection(
+                            action: () async {
+                              await onLoadNews(_news);
+                            },
+                          );
+                        }
+                    }
+                    // if (snapshot.hasData) {
+                    //   List<News> news = snapshot.data;
 
-                  //   return Flexible(
-                  //     child: ListView(
-                  //         scrollDirection: Axis.vertical,
-                  //         shrinkWrap: true,
-                  //         children: news
-                  //             .map(
-                  //               (News newsItem) => ListTile(
-                  //                 title: Text(newsItem.newsTitle),
-                  //               ),
-                  //             )
-                  //             .toList()),
-                  //   );
-                  // }
-                },
+                    //   return Flexible(
+                    //     child: ListView(
+                    //         scrollDirection: Axis.vertical,
+                    //         shrinkWrap: true,
+                    //         children: news
+                    //             .map(
+                    //               (News newsItem) => ListTile(
+                    //                 title: Text(newsItem.newsTitle),
+                    //               ),
+                    //             )
+                    //             .toList()),
+                    //   );
+                    // }
+                  },
+                ),
               ),
-            ),
-            // Container(
-            //   decoration: BoxDecoration(
-            //     color: Colors.yellow[100].withOpacity(0.5),
-            //   ),
-            //   height: 34,
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     children: <Widget>[
-            //       Container(
-            //         margin: EdgeInsets.only(
-            //           left: 20,
-            //           right: 20,
-            //         ),
-            //         child: Text(
-            //           "First    1     2     3     4     5    Last",
-            //           style: TextStyle(
-            //               color: Colors.orange[300],
-            //               fontSize: 17,
-            //               fontWeight: FontWeight.bold),
-            //         ),
-            //       )
-            //     ],
-            //   ),
-            // )
-          ],
+            ],
+          ),
         ),
       ),
     );
