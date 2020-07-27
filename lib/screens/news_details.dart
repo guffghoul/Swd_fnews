@@ -33,7 +33,19 @@ class _NewsDetailsState extends State<NewsDetails> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Colors.orange,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromRGBO(255, 95, 109, 1),
+                Color.fromRGBO(255, 195, 113, 1)
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        //backgroundColor: Colors.orange,
         title: Text(
           "F-News",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -249,7 +261,14 @@ class _NewsDetailsState extends State<NewsDetails> {
                         height: MediaQuery.of(context).size.height / 21,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(10)),
-                          color: Colors.green,
+                          gradient: LinearGradient(
+                            colors: [
+                              Color.fromRGBO(17, 153, 142, 1),
+                              Color.fromRGBO(56, 239, 125, 1)
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
                         ),
                         child: Text(
                           "Comment",

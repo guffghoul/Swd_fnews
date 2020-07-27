@@ -30,17 +30,26 @@ class _ChannelScreenState extends State<ChannelScreen> implements ChannelView {
     //double imageWidth = MediaQuery.of(context).size.width / 3;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromRGBO(255, 95, 109, 1),
+                Color.fromRGBO(255, 195, 113, 1)
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
         ),
-        title: const Text(
-          'All Channel',
-          style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 22),
+        //backgroundColor: Colors.orange,
+        title: Text(
+          "F-News",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        leading: BackButton(),
         centerTitle: true,
+        iconTheme: IconThemeData(color: Colors.white),
+        elevation: 0,
       ),
       body: FutureBuilder<List<Channel>>(
           future: _channels,

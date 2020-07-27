@@ -11,8 +11,9 @@ class LoginPageWidget extends StatefulWidget {
 class LoginPageWidgetState extends State<LoginPageWidget> {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   bool isUserSignedIn = false;
-  //bool isSchoolMail = false;
+  bool isSchoolMail = false;
 
   @override
   void initState() {
@@ -41,13 +42,28 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: scaffoldKey,
         appBar: AppBar(
-          backgroundColor: Colors.orange,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color.fromRGBO(255, 95, 109, 1),
+                  Color.fromRGBO(255, 195, 113, 1)
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
+          //backgroundColor: Colors.orange,
           title: Text(
             "F-News",
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
+          iconTheme: IconThemeData(color: Colors.white),
+          elevation: 0,
         ),
         body: Container(
             padding: EdgeInsets.all(50),
@@ -99,11 +115,9 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
       );
 
       user = (await _auth.signInWithCredential(credential)).user;
-      // if (user.email != '^[a-z][a-z0-9_\.]{5,32}@fpt.edu.vn'){
-
-      // }
 
       userSignedIn = await _googleSignIn.isSignedIn();
+
       setState(() {
         isUserSignedIn = userSignedIn;
       });
@@ -114,16 +128,29 @@ class LoginPageWidgetState extends State<LoginPageWidget> {
 
   void onGoogleSignIn(BuildContext context) async {
     FirebaseUser user = await _handleSignIn();
-    var userSignedIn = await Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) =>
-              //RootScreen(user, _googleSignIn)),
-              RootScreen()),
-    );
+    bool check = false;
+    if (check == RegExp("[a-z][a-z0-9_\.]{5,32}@[fpt]+\.[edu]+\.[vn]").hasMatch(user.email)) {
+      _googleSignIn.signOut();
+      scaffoldKey.currentState.showSnackBar(new SnackBar(
+        content: Text('Your email is not authorize to access this app!'),
+        duration: Duration(seconds: 3),
+      ));
+      Future.delayed(Duration(seconds: 3), () {
+      Navigator.push(context,
+            MaterialPageRoute(builder: (context) => LoginPageWidget()));
+      });
+    } else {
+      var userSignedIn = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                RootScreen(user : user, googleSignIn: _googleSignIn)),
+                //RootScreen()),
+      );
 
-    setState(() {
-      isUserSignedIn = userSignedIn == null ? true : false;
-    });
+      setState(() {
+        isUserSignedIn = userSignedIn == null ? true : false;
+      });
+    }
   }
 }

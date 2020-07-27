@@ -21,15 +21,27 @@ class _CommentListState extends State<CommentList> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.orange,
-          title: Text(
-            "Comments",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromRGBO(255, 95, 109, 1),
+                Color.fromRGBO(255, 195, 113, 1)
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
           ),
-          centerTitle: true,
-          iconTheme: IconThemeData(color: Colors.white),
-          elevation: 0,
         ),
+        //backgroundColor: Colors.orange,
+        title: Text(
+          "Comments",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        iconTheme: IconThemeData(color: Colors.white),
+        elevation: 0,
+      ),
         body: SingleChildScrollView(
           child: Column(
             children: <Widget>[

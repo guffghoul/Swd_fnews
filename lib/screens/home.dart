@@ -11,25 +11,38 @@ import 'package:swdmobileapp/widgets/bottom_bar.dart';
 import 'package:swdmobileapp/widgets/news_list.dart';
 import 'package:swdmobileapp/widgets/no_internet.dart';
 
-class RootScreen extends StatefulWidget {
-  //const RootScreen(FirebaseUser user, {Key key}) : super(key: key);
+// Color.fromARGB(100, 255, 70, 109),
+//                 Color.fromARGB(100, 255, 195, 113)
 
-  RootScreen({Key key}) : super(key: key);
+class RootScreen extends StatefulWidget {
+  final GoogleSignIn googleSignIn;
+  final FirebaseUser user;
+  const RootScreen({Key key, @required this.user, @required this.googleSignIn})
+      : super(key: key);
+
+  //RootScreen({Key key}) : super(key: key);
 
   @override
   RootScreenState createState() => RootScreenState();
 }
 
 class RootScreenState extends State<RootScreen> {
-  static GoogleSignIn _googleSignIn;
-  static FirebaseUser _user;
+  FirebaseUser user;
+  GoogleSignIn googleSignIn;
+  List<Widget> screens;
 
-  List<Widget> screens = <Widget>[
-    ChannelScreen(),
-    HomeScreen(),
-    //ProfileScreen(_user, _googleSignIn),
-    ProfileScreen(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    user = widget.user;
+    googleSignIn = widget.googleSignIn;
+    screens = <Widget>[
+      ChannelScreen(),
+      HomeScreen(),
+      ProfileScreen(user: user, googleSignIn: googleSignIn),
+      //ProfileScreen(),
+    ];
+  }
 
   int _currentIndex = 1;
 
@@ -72,7 +85,19 @@ class _HomeScreenState extends State<HomeScreen> implements HomeView {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orange,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromRGBO(255, 95, 109, 1),
+                Color.fromRGBO(255, 195, 113, 1)
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        //backgroundColor: Colors.orange,
         title: Text(
           "F-News",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
