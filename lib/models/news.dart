@@ -37,7 +37,8 @@ class News {
     channelId = json['channelId'];
     isActive = json['isActive'];
     linkImage = json['linkImage'];
-    channel = json['channel'];
+    channel =
+        json['channel'] != null ? new Channel.fromJson(json['channel']) : null;
     if (json['bookmark'] != null) {
       bookmark = new List<Bookmark>();
       json['bookmark'].forEach((v) {
@@ -67,7 +68,9 @@ class News {
     data['channelId'] = this.channelId;
     data['isActive'] = this.isActive;
     data['linkImage'] = this.linkImage;
-    data['channel'] = this.channel;
+    if (this.channel != null) {
+      data['channel'] = this.channel.toJson();
+    }
     if (this.bookmark != null) {
       data['bookmark'] = this.bookmark.map((v) => v.toJson()).toList();
     }

@@ -11,9 +11,6 @@ import 'package:swdmobileapp/widgets/bottom_bar.dart';
 import 'package:swdmobileapp/widgets/news_list.dart';
 import 'package:swdmobileapp/widgets/no_internet.dart';
 
-// Color.fromARGB(100, 255, 70, 109),
-//                 Color.fromARGB(100, 255, 195, 113)
-
 class RootScreen extends StatefulWidget {
   final GoogleSignIn googleSignIn;
   final FirebaseUser user;
@@ -111,11 +108,18 @@ class _HomeScreenState extends State<HomeScreen> implements HomeView {
           child: Column(
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height / 19.5,
+                height: MediaQuery.of(context).size.height / 17,
                 alignment: Alignment.center,
                 margin: EdgeInsets.only(bottom: 1),
                 decoration: BoxDecoration(
-                  color: Colors.red[50].withOpacity(0.5),
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromARGB(100, 255, 70, 109),
+                      Color.fromARGB(100, 255, 195, 113)
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
                 ),
                 child: Text(
                   "TIN MỚI NHẤT",
