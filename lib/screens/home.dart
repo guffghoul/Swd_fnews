@@ -69,6 +69,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> implements HomeView {
   Future<List<News>> _news;
   HomePresenter _presenter;
+  
 
   @override
   void initState() {

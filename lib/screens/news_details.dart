@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:swdmobileapp/models/news.dart';
@@ -20,18 +19,21 @@ class NewsDetails extends StatefulWidget {
 
 class _NewsDetailsState extends State<NewsDetails> {
   var date;
+  Color isBookmarked;
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  List listTags = List();
-  NewsTag newsTag;
+  List<Tag> tag = new List<Tag>();
 
   @override
   void initState() {
     super.initState();
+    //print(widget.news);
+    for (var i = 0; i < widget.news.newsTag.length; i++) {
+      tag.add(widget.news.newsTag[i].tag);
+      //print(tag.last);
+    }
+
     var tmp = DateTime.parse(widget.news.dayOfPost);
     date = DateTimeFormat.format(tmp, format: AmericanDateFormats.dayOfWeek);
-    setState(() {
-      listTags = widget.news.newsTag.toList();
-    });
   }
 
   @override
@@ -103,10 +105,19 @@ class _NewsDetailsState extends State<NewsDetails> {
                         Positioned(
                           right: 15,
                           top: 15,
-                          child: Icon(
-                            Icons.bookmark,
-                            color: Colors.orange,
-                            size: 50,
+                          child: IconButton(
+                            icon: Icon(Icons.bookmark),
+                            onPressed: () {
+                              setState(() {
+                                if (isBookmarked == Colors.white) {
+                                  isBookmarked = Colors.orange;
+                                } else {
+                                  isBookmarked = Colors.white;
+                                }
+                              });
+                            },
+                            iconSize: 32,
+                            color: isBookmarked,
                           ),
                         ),
                       ],
@@ -186,40 +197,12 @@ class _NewsDetailsState extends State<NewsDetails> {
                                   fontSize: 17, fontWeight: FontWeight.bold),
                             ),
                             Container(
-                              margin: EdgeInsets.only(left: 5),
-                              //padding: EdgeInsets.only(left: 5, right: 5),
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                color: Colors.blue[200],
-                              ),
-                              child: Text('Công nghệ'),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 5),
-                              //padding: EdgeInsets.only(left: 5, right: 5),
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                color: Colors.blue[200],
-                              ),
-                              child: Text('Công nghệ'),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(left: 5),
-                              //padding: EdgeInsets.only(left: 5, right: 5),
-                              padding: EdgeInsets.all(4),
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                color: Colors.blue[200],
-                              ),
-                              child: Text('Công nghệ'),
-                            ),
-                            // TagDetails(
-                            //     tags: listTags, newsID: widget.news.newsId),
+                                child: tag.isEmpty
+                                    ? Container(
+                                        width: 0,
+                                        height: 0,
+                                      )
+                                    : TagDetails(tags: tag)),
                           ],
                         ),
                       ),
@@ -268,60 +251,31 @@ class _NewsDetailsState extends State<NewsDetails> {
   }
 }
 
-// class TagDetails extends StatefulWidget {
-//   final newsID;
-//   final List tags;
-//   List<Tag> tag;
+class TagDetails extends StatelessWidget {
+  final List<Tag> tags;
 
-//   TagDetails({Key key, @required this.tags, @required this.newsID})
-//       : super(key: key);
+  TagDetails({
+    Key key,
+    @required this.tags,
+  }) : super(key: key);
 
-//   @override
-//   State<StatefulWidget> createState() => TagDetailsState();
-// }
-
-// class TagDetailsState extends State<TagDetails> {
-//   var id;
-//   @override
-//   void initState() {
-//     super.initState();
-//     id = widget.newsID;
-//   }
-
-//   @override
-//   void dispose() {
-//     super.dispose();
-//   }
-
-//   Widget build(BuildContext context) {
-//     Future<List<Tag>> getTag() async {
-//       var response =
-//           await http.get('https://fnewsapi.azurewebsites.net/api/tags/$id');
-//       print(response.body);
-//       if (response.statusCode == 200) {
-//         var data = json.decode(response.body) as List;
-//         List<Tag> tmp = data.map((item) => Tag.fromJson(item)).toList();
-//         widget.tag = tmp;
-//       } else {
-//         print("Failed to get data");
-//       }
-//     }
-
-//     @override
-//     List list = new List();
-//     for (var i = 0; i < widget.tag.length; i++) {
-//       //list.add(new Text(tags[i]));
-//       list.add(widget.tag[i]);
-//       return new Container(
-//         margin: EdgeInsets.only(left: 5),
-//         //padding: EdgeInsets.only(left: 5, right: 5),
-//         padding: EdgeInsets.all(4),
-//         decoration: BoxDecoration(
-//           borderRadius: BorderRadius.all(Radius.circular(10)),
-//           color: Colors.blue[200],
-//         ),
-//         child: Text(list.last.toString()),
-//       );
-//     }
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    List tagName = new List();
+    List<Widget> listWidget = new List();
+    for (var i = 0; i < tags.length; i++) {
+      tagName.add(tags[i].tagName);
+      listWidget.add(new Container(
+        margin: EdgeInsets.only(left: 5),
+        //padding: EdgeInsets.only(left: 5, right: 5),
+        padding: EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          color: Colors.blue[200],
+        ),
+        child: Text(tagName.last.toString()),
+      ));
+    }
+    return new Row(children: listWidget);
+  }
+}

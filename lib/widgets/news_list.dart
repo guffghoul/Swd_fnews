@@ -4,21 +4,34 @@ import 'package:flutter/material.dart';
 import 'package:swdmobileapp/models/news.dart';
 import 'package:swdmobileapp/screens/news_details.dart';
 
-class NewsListItem extends StatelessWidget {
+class NewsListItem extends StatefulWidget {
   final News news;
 
   NewsListItem({@required this.news});
 
   @override
+  State<StatefulWidget> createState() => _NewsListItemScreenState();
+}
+
+class _NewsListItemScreenState extends State<NewsListItem> {
+  Color isBookmarked;
+
+  @override
+  void initState() {
+    super.initState();
+    isBookmarked = Colors.white;
+  }
+
+  @override
   Widget build(BuildContext context) {
     // filter to load post where isActive = true
-    if(news == null) {
+    if (widget.news == null) {
       return Container(
         width: 0,
         height: 0,
       );
     }
-    if (!news.isActive) {
+    if (!widget.news.isActive) {
       return Container(
         width: 0,
         height: 0,
@@ -29,7 +42,7 @@ class NewsListItem extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => NewsDetails(news: news)));
+                  builder: (context) => NewsDetails(news: widget.news)));
         },
         child: Column(
           children: <Widget>[
@@ -50,31 +63,37 @@ class NewsListItem extends StatelessWidget {
                     height: 140,
                     width: 160,
                     child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      // child: Image.asset(
-                      //   'assets/ps5.jpg',
-                      //   fit: BoxFit.fill,
-                      //   child: Image.network(
-                      //     news.linkImage,
-                      //     fit: BoxFit.fill,
-                      // )
-                      child: news.linkImage != null
-                       ? CachedNetworkImage(
-                        placeholder: (context, url) =>
-                            Center(child: CircularProgressIndicator()),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                        imageUrl: news.linkImage,
-                        fit: BoxFit.fill,
-                      ) 
-                      : Image.asset('assets/no-image.png', fit: BoxFit.fill,)
-                    ),
+                        borderRadius: BorderRadius.circular(10),
+                        child: widget.news.linkImage != null
+                            ? CachedNetworkImage(
+                                placeholder: (context, url) =>
+                                    Center(child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                                imageUrl: widget.news.linkImage,
+                                fit: BoxFit.fill,
+                              )
+                            : Image.asset(
+                                'assets/no-image.png',
+                                fit: BoxFit.fill,
+                              )),
                   ),
                   Positioned(
-                    right: 15,
+                    right: 10,
                     top: 15,
-                    child: Icon(
-                      Icons.bookmark,
-                      color: Colors.orange,
+                    child: IconButton(
+                      icon: Icon(Icons.bookmark),
+                      onPressed: () {
+                        setState(() {
+                          if (isBookmarked == Colors.white) {
+                            isBookmarked = Colors.orange;
+                          } else {
+                            isBookmarked = Colors.white;
+                          }
+                        });
+                      },
+                      iconSize: 32,
+                      color: isBookmarked,
                     ),
                   ),
                 ]),
@@ -128,7 +147,7 @@ class NewsListItem extends StatelessWidget {
                           // decoration: BoxDecoration(
                           //  border: Border.all(color: Colors.red)),
                           child: Text(
-                            news.newsTitle,
+                            widget.news.newsTitle,
                             maxLines: 2,
                             style: TextStyle(
                               color: Colors.black,
@@ -148,7 +167,7 @@ class NewsListItem extends StatelessWidget {
                           // decoration: BoxDecoration(
                           //  border: Border.all(color: Colors.red)),
                           child: Text(
-                            news.newsContent,
+                            widget.news.newsContent,
                             maxLines: 3,
                             style: TextStyle(
                               color: Colors.black,
@@ -165,7 +184,7 @@ class NewsListItem extends StatelessWidget {
                           // decoration: BoxDecoration(
                           //  border: Border.all(color: Colors.red)),
                           child: Text(
-                            news.dayOfPost,
+                            widget.news.dayOfPost,
                             maxLines: 1,
                             style: TextStyle(
                               color: Colors.grey,
