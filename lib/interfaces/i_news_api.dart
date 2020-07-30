@@ -3,7 +3,6 @@ import 'package:swdmobileapp/models/channel.dart';
 import 'package:swdmobileapp/models/news.dart';
 
 abstract class INewsAPI {
-  //Future<News> getNews(int id);
 
   Future<List<News>> getHomeNews();
 

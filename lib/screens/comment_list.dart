@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:swdmobileapp/models/news.dart';
 
 class CommentList extends StatefulWidget {
-  CommentList({Key key}) : super(key: key);
+  final News news;
+  CommentList({Key key, @required this.news}) : super(key: key);
 
   @override
   _CommentListState createState() => _CommentListState();

@@ -1,12 +1,9 @@
-import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:swdmobileapp/models/news.dart';
 import 'package:date_time_format/date_time_format.dart';
-import 'package:swdmobileapp/models/newstag.dart';
 import 'package:swdmobileapp/models/tag.dart';
 import 'package:swdmobileapp/screens/comment_list.dart';
-import 'package:http/http.dart' as http;
 
 class NewsDetails extends StatefulWidget {
   final News news;
@@ -19,19 +16,15 @@ class NewsDetails extends StatefulWidget {
 
 class _NewsDetailsState extends State<NewsDetails> {
   var date;
-  Color isBookmarked;
-  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  Color isBookmarked = Colors.orange;
   List<Tag> tag = new List<Tag>();
 
   @override
   void initState() {
     super.initState();
-    //print(widget.news);
     for (var i = 0; i < widget.news.newsTag.length; i++) {
       tag.add(widget.news.newsTag[i].tag);
-      //print(tag.last);
     }
-
     var tmp = DateTime.parse(widget.news.dayOfPost);
     date = DateTimeFormat.format(tmp, format: AmericanDateFormats.dayOfWeek);
   }
@@ -44,7 +37,6 @@ class _NewsDetailsState extends State<NewsDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -216,7 +208,7 @@ class _NewsDetailsState extends State<NewsDetails> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => CommentList())),
+                                builder: (context) => CommentList(news: widget.news,))),
                       },
                       child: Container(
                         padding: EdgeInsets.all(5),

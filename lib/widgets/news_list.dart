@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:date_time_format/date_time_format.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:swdmobileapp/models/news.dart';
@@ -14,12 +15,15 @@ class NewsListItem extends StatefulWidget {
 }
 
 class _NewsListItemScreenState extends State<NewsListItem> {
+  var date;
   Color isBookmarked;
 
   @override
   void initState() {
     super.initState();
     isBookmarked = Colors.white;
+    var tmp = DateTime.parse(widget.news.dayOfPost);
+    date = DateTimeFormat.format(tmp, format: AmericanDateFormats.dayOfWeek);
   }
 
   @override
@@ -179,12 +183,12 @@ class _NewsListItemScreenState extends State<NewsListItem> {
                       ),
                       Expanded(
                         child: Container(
-                          margin: EdgeInsets.only(top: 10),
+                          margin: EdgeInsets.only(top: 2),
                           alignment: Alignment.topLeft,
                           // decoration: BoxDecoration(
                           //  border: Border.all(color: Colors.red)),
                           child: Text(
-                            widget.news.dayOfPost,
+                            "$date",
                             maxLines: 1,
                             style: TextStyle(
                               color: Colors.grey,
@@ -199,6 +203,7 @@ class _NewsListItemScreenState extends State<NewsListItem> {
                 )
               ],
             ),
+            Divider(thickness: 2,)
           ],
         ),
       );

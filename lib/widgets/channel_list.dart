@@ -28,14 +28,14 @@ class _ChannelListState extends State<ChannelListItem> {
       );
     } else {
       return GestureDetector(
-        
         onTap: () {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => ChannelDetails(id: _channel.channelId)));
+                  builder: (context) =>
+                      ChannelDetails(id: _channel.channelId)));
         },
-              child: Column(
+        child: Column(
           children: <Widget>[
             Row(
               children: <Widget>[
@@ -75,8 +75,8 @@ class _ChannelListState extends State<ChannelListItem> {
                             padding: EdgeInsets.all(5),
                             child: Text(
                               _channel.channelName,
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.black87),
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.black87),
                               textAlign: TextAlign.left,
                             ),
                           ),
@@ -88,8 +88,8 @@ class _ChannelListState extends State<ChannelListItem> {
                             padding: EdgeInsets.all(5),
                             child: Text(
                               "Last Post: 13/06/2020",
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.black87),
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.black87),
                               textAlign: TextAlign.left,
                             ),
                           ),
@@ -99,19 +99,25 @@ class _ChannelListState extends State<ChannelListItem> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Container(
+                            //color: Colors.amber,
                             padding: EdgeInsets.all(5),
                             child: Text(
                               "Total Post: 45",
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.black87),
+                              style: TextStyle(
+                                  fontSize: 16, color: Colors.black87),
                               textAlign: TextAlign.left,
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 10),
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.only(right: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Colors.grey[350],
+                            ),
                             child: Text(
                               "SUBSCRIBE",
-                              style: TextStyle(fontSize: 16, color: Colors.red),
+                              style: TextStyle(fontSize: 16, color: Colors.red, fontWeight: FontWeight.bold),
                               textAlign: TextAlign.left,
                             ),
                           ),
@@ -127,6 +133,9 @@ class _ChannelListState extends State<ChannelListItem> {
                 ),
               ],
             ),
+            Divider(
+              thickness: 2,
+            )
           ],
         ),
       );
